@@ -1,5 +1,6 @@
 package com.rachitbhutani.whysave.helper
 
+import android.view.View
 import androidx.core.text.isDigitsOnly
 
 fun String.validatePhone(): Boolean {
@@ -11,4 +12,24 @@ fun String.validatePhone(): Boolean {
     if (!startsWith("+") && !isDigitsOnly())
         return false
     return true
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+    invalidate()
+}
+
+fun View.hide() {
+    visibility = View.GONE
+    invalidate()
+}
+
+fun View.invisible() {
+    visibility = View.INVISIBLE
+    invalidate()
+}
+
+fun View.showIf(show: Boolean) {
+    if (show) show() else hide()
+    invalidate()
 }

@@ -13,9 +13,8 @@ class HistoryListAdapter(private val context: Context, private val listener: His
     private val mList: MutableList<ContactItem> = mutableListOf()
 
     fun addItems(list: List<ContactItem>) {
-        val index = mList.lastIndex
         mList.addAll(list)
-        notifyItemRangeInserted(index, mList.lastIndex)
+        notifyDataSetChanged()
     }
 
     inner class Holder(private val binding: HistoryListItemBinding) :
@@ -24,14 +23,14 @@ class HistoryListAdapter(private val context: Context, private val listener: His
         fun bindData(data: ContactItem) {
             binding.tvPhone.text = data.phone
             binding.tvTime.text = DateHelper.mapTimestampToTime(data.timestamp)
-            binding.ivWhatsapp.setOnClickListener {
+            binding.root.setOnClickListener {
                 listener.onWhatsappClick(data.phone.orEmpty())
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(HistoryListItemBinding.inflate(LayoutInflater.from(context)))
+        return Holder(HistoryListItemBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {

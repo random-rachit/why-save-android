@@ -13,7 +13,7 @@ interface ContactItemDao {
     @Query("SELECT * FROM contacts")
     fun getAllContacts(): List<ContactItem>
 
-    @Query("SELECT * FROM contacts where phone LIKE :phone")
+    @Query("SELECT * FROM contacts where phone LIKE :phone order by timestamp")
     fun findContact(phone: String): ContactItem?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

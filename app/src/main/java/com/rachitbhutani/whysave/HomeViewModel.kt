@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val contactDao: ContactItemDao) : ViewModel() {
 
-    private val contactLiveData = MutableLiveData<List<ContactItem>>()
+    val contactLiveData = MutableLiveData<List<ContactItem>>()
 
     fun fetchContacts() = viewModelScope.launch(Dispatchers.IO) {
         val contacts = contactDao.getAllContacts()

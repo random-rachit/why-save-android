@@ -4,30 +4,41 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
+import com.rachitbhutani.whysave.helper.showIf
 import com.rachitbhutani.whysave.helper.validatePhone
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), HistoryListItemListener {
 
+    private var mAdapter: HistoryListAdapter? = null
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        handleIntent()
         setupUI()
+        handleIntent()
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.contactLiveData.observe(this) {
+            mAdapter?.addItems(it)
+            handleEmptyView()
+        }
+    }
+
+    private fun handleEmptyView() {
+        binding.emptyView.showIf(mAdapter?.itemCount == 0)
+        binding.rvHistory.showIf(mAdapter?.itemCount != 0)
     }
 
     private fun handleIntent() {
@@ -44,9 +55,15 @@ class MainActivity : AppCompatActivity(), HistoryListItemListener {
     }
 
     private fun setupUI() {
-        binding.rvHistory.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvHistory.adapter = HistoryListAdapter(this, this)
+        actionBar?.title = "Recent Chats"
+        mAdapter = HistoryListAdapter(this, this)
+        val llm =   LinearLayoutManager(this)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        binding.rvHistory.layoutManager = llm
+
+        binding.rvHistory.adapter = mAdapter
+
+        viewModel.fetchContacts()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -63,5 +80,6 @@ class MainActivity : AppCompatActivity(), HistoryListItemListener {
 
     override fun onWhatsappClick(phone: String) {
         openWhatsapp(phone)
+        viewModel.insertContact(phone)
     }
 }
