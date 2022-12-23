@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background_fade"
     android:animateLayoutChanges="true"
+    android:background="?attr/background_fade"
     app:theme="@style/Theme.WhySave"
     tools:context=".MainActivity">
 
@@ -38,10 +38,17 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/dp_24"
         android:background="@color/teal_700"
+        android:contentDescription="@string/fab_content_desc"
         android:elevation="@dimen/dp_24"
         android:src="@drawable/ic_baseline_dialpad_24"
+        android:tint="@color/white"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

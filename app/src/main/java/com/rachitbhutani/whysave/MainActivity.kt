@@ -6,12 +6,15 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.window.OnBackInvokedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
+import com.rachitbhutani.whysave.dialpad.DialpadFragment
 import com.rachitbhutani.whysave.helper.showIf
 import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhone
@@ -60,21 +63,62 @@ class MainActivity : AppCompatActivity(), HistoryListItemListener {
             val text = (if (it.text.startsWith("+"))
                 it.text.substring(1) else it.text.toString()).filter { c -> !c.isWhitespace() }
 
-            if (text.validatePhone()) {
-                viewModel.insertContact(text)
-                openWhatsapp(text)
-            } else {
-                Snackbar.make(binding.root, "Invalid number", Snackbar.LENGTH_INDEFINITE).apply {
-                    setAction("Dismiss") {
-                        dismiss()
-                    }
-                    show()
-                }
-            }
+            handledRefinedText(text)
         }
     }
 
     private fun setupUI() {
+        setupActionBar()
+        setupRecyclerView()
+
+        binding.btnKeypad.setOnClickListener {
+            (supportFragmentManager.findFragmentByTag(DialpadFragment.TAG) as? DialpadFragment)?.getText()
+                ?.let { text ->
+                    handledRefinedText(text)
+                } ?: run { openDialpad() }
+        }
+
+        viewModel.fetchContacts()
+    }
+
+    private fun handledRefinedText(text: String) {
+        if (text.validatePhone()) {
+            viewModel.insertContact(text)
+            openWhatsapp(text)
+        } else {
+            Snackbar.make(binding.root, "Invalid number", Snackbar.LENGTH_INDEFINITE).apply {
+                setAction("Dismiss") {
+                    dismiss()
+                }
+                show()
+            }
+        }
+    }
+
+    private fun openDialpad() {
+        //TODO: Change to navigation component soon
+        val fragment = DialpadFragment()
+        supportFragmentManager.beginTransaction()
+            .add(binding.fragContainer.id, fragment, DialpadFragment.TAG)
+            .addToBackStack(null)
+            .commitAllowingStateLoss()
+        binding.btnKeypad.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.digital_glyph_black
+            )
+        )
+    }
+
+    private fun setupRecyclerView() {
+        mAdapter = HistoryListAdapter(this, this)
+        val llm = LinearLayoutManager(this)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        binding.rvHistory.layoutManager = llm
+        binding.rvHistory.adapter = mAdapter
+    }
+
+    private fun setupActionBar() {
         supportActionBar?.apply {
             title = getString(R.string.recent_chats)
             setBackgroundDrawable(
@@ -87,14 +131,6 @@ class MainActivity : AppCompatActivity(), HistoryListItemListener {
             )
             elevation = 24f
         }
-        mAdapter = HistoryListAdapter(this, this)
-        val llm = LinearLayoutManager(this)
-        llm.orientation = LinearLayoutManager.VERTICAL
-        binding.rvHistory.layoutManager = llm
-
-        binding.rvHistory.adapter = mAdapter
-
-        viewModel.fetchContacts()
     }
 
     override fun onNewIntent(intent: Intent?) {

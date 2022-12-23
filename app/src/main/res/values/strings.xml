@@ -3,4 +3,8 @@
     <string name="your_recent_chats">Your Recent Chats</string>
     <string name="empty_view_desc">Share a number via Why Save and it will appear here</string>
     <string name="recent_chats">Recent Chats</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_whatsapp">Open Whatsapp</string>
+    <string name="fab_content_desc">Button to input a number which is opened on Whatsapp</string>
 </resources>
