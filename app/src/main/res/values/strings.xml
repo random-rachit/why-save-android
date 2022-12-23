@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">WhySave</string>
     <string name="your_recent_chats">Your Recent Chats</string>
+    <string name="empty_view_desc">Share a number via Why Save and it will appear here</string>
 </resources>
