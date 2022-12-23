@@ -14,6 +14,18 @@ fun String.validatePhone(): Boolean {
     return true
 }
 
+fun String.stripDigits(): String {
+    var str = ""
+    map {
+        str += if (it.isDigit()) "#" else it
+    }
+    return str
+}
+
+
+/**
+ * View Extensions
+ */
 fun View.show() {
     visibility = View.VISIBLE
     invalidate()

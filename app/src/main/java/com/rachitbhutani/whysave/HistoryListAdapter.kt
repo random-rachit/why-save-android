@@ -3,18 +3,25 @@ package com.rachitbhutani.whysave
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rachitbhutani.whysave.databinding.HistoryListItemBinding
 import com.rachitbhutani.whysave.helper.DateHelper
 import com.rachitbhutani.whysave.model.ContactItem
 
-class HistoryListAdapter(private val context: Context, private val listener: HistoryListItemListener) : RecyclerView.Adapter<HistoryListAdapter.Holder>() {
+class HistoryListAdapter(
+    private val context: Context,
+    private val listener: HistoryListItemListener
+) : RecyclerView.Adapter<HistoryListAdapter.Holder>() {
 
     private val mList: MutableList<ContactItem> = mutableListOf()
 
-    fun addItems(list: List<ContactItem>) {
+    fun setData(list: List<ContactItem>) {
+        val diffCallback = HistoryItemDiffCallback(mList, list)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        mList.clear()
         mList.addAll(list)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     inner class Holder(private val binding: HistoryListItemBinding) :

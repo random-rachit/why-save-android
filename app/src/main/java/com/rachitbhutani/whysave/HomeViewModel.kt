@@ -27,6 +27,7 @@ class HomeViewModel @Inject constructor(private val contactDao: ContactItemDao) 
             timestamp = System.currentTimeMillis()
         )
         contactDao.insertContact(newContact)
+        contactLiveData.postValue(contactDao.getAllContacts())
     }
 
 }
