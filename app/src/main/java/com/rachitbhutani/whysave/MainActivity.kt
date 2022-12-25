@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
-import com.rachitbhutani.whysave.helper.openWhatsapp
-import com.rachitbhutani.whysave.helper.showSnackBar
-import com.rachitbhutani.whysave.helper.stripDigits
-import com.rachitbhutani.whysave.helper.validatePhone
+import com.rachitbhutani.whysave.helper.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,10 +56,14 @@ class MainActivity : AppCompatActivity() {
                 source = Source.INTENT
             )
 
-            val text = (if (it.text.startsWith("+"))
-                it.text.substring(1) else it.text.toString()).filter { c -> !c.isWhitespace() }
-
-            handledRefinedText(text)
+            val pattern = Regex("\"(.*)\"")
+            val text: String
+            val matcher = pattern.containsMatchIn(it.text)
+            text = if (matcher) {
+                val rawMatch = pattern.find(it.text)?.value
+                rawMatch?.substring(1, rawMatch.lastIndex).orUnknown()
+            } else it.text.toString()
+            handledRefinedText((if (text.startsWith("+")) text.substring(1) else text).filter { c -> !c.isWhitespace() })
         }
     }
 

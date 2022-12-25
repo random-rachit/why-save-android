@@ -4,21 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentHistoryListBinding
-import com.rachitbhutani.whysave.helper.openWhatsapp
-import com.rachitbhutani.whysave.helper.showIf
-import com.rachitbhutani.whysave.helper.stripDigits
+import com.rachitbhutani.whysave.helper.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistoryListFragment: Fragment(), HistoryListItemListener {
+class HistoryListFragment : Fragment(), HistoryListItemListener {
 
     private lateinit var binding: FragmentHistoryListBinding
 
@@ -48,7 +49,7 @@ class HistoryListFragment: Fragment(), HistoryListItemListener {
 
 
     private fun setupObservers() {
-        viewModel.contactLiveData.observe(viewLifecycleOwner) {
+        viewModel.contactLiveData.observe(requireActivity()) {
             mAdapter.setData(it)
             handleEmptyView()
         }
@@ -56,6 +57,14 @@ class HistoryListFragment: Fragment(), HistoryListItemListener {
 
     private fun handleEmptyView() {
         binding.emptyView.showIf(mAdapter.itemCount == 0)
+        binding.emptyView.setOnClickListener {
+            binding.emptyView.text = String.format(
+                getString(R.string.empty_view_desc),
+                if (binding.ivTutorial.isVisible) "hide" else "view"
+            )
+            binding.ivTutorial.showIf(binding.ivTutorial.isVisible.not())
+
+        }
         binding.rvHistory.showIf(mAdapter.itemCount != 0)
     }
 
@@ -65,7 +74,9 @@ class HistoryListFragment: Fragment(), HistoryListItemListener {
             val action = HistoryListFragmentDirections.historyListToDialpadFragment()
             it.findNavController().navigate(action)
         }
-        viewModel.fetchContacts()
+        binding.emptyView.text = String.format(getString(R.string.empty_view_desc), "view")
+        Glide.with(this).asGif().load(R.raw.tutorial_square)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(binding.ivTutorial)
     }
 
     private fun setupRecyclerView() {
@@ -84,5 +95,10 @@ class HistoryListFragment: Fragment(), HistoryListItemListener {
     override fun onResume() {
         super.onResume()
         requireActivity().title = "Recent Chats"
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchContacts()
     }
 }
