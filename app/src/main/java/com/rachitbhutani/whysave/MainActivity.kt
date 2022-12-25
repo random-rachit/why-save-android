@@ -3,11 +3,9 @@ package com.rachitbhutani.whysave
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
@@ -34,11 +32,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         setContentView(binding.root)
         handleIntent(this.intent)
+        setupActionBar()
     }
 
-    fun setupActionBar(title: String) {
+    private fun setupActionBar() {
         supportActionBar?.apply {
-            this.title = title
             setBackgroundDrawable(
                 ColorDrawable(
                     ContextCompat.getColor(

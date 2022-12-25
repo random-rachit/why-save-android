@@ -41,6 +41,7 @@
         android:elevation="@dimen/dp_24"
         android:src="@drawable/ic_baseline_dialpad_24"
         android:tint="@color/white"
+        android:tintMode="multiply"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

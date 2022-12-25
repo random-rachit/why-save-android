@@ -18,6 +18,15 @@ fun String.validatePhone(): Boolean {
     return true
 }
 
+fun String?.formatPhoneNumber(): String {
+    if (this == null) return ""
+    var str = this
+    if (this.length == 12)
+        str = "+${this.substring(0,2)} ${this.substring(2, this.lastIndex)}"
+    return str
+}
+
+
 fun String.stripDigits(): String {
     var str = ""
     map {

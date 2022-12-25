@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rachitbhutani.whysave.databinding.HistoryListItemBinding
 import com.rachitbhutani.whysave.helper.DateHelper
+import com.rachitbhutani.whysave.helper.formatPhoneNumber
 import com.rachitbhutani.whysave.model.ContactItem
 
 class HistoryListAdapter(
@@ -29,7 +30,7 @@ class HistoryListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindData(data: ContactItem) {
-            binding.tvPhone.text = data.phone
+            binding.tvPhone.text = data.phone.formatPhoneNumber()
             binding.tvTime.text = DateHelper.mapTimestampToTime(data.timestamp)
             binding.root.setOnClickListener {
                 listener.onWhatsappClick(data.phone.orEmpty())
