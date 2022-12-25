@@ -7,4 +7,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_whatsapp">Open Whatsapp</string>
     <string name="fab_content_desc">Button to input a number which is opened on Whatsapp</string>
+    <string name="start_a_chat">Start a chat</string>
+    <string name="btn_whatsapp_desc">Click to open whatsapp chat with above mentioned number</string>
 </resources>

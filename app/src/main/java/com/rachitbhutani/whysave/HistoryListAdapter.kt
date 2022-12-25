@@ -22,6 +22,7 @@ class HistoryListAdapter(
         mList.clear()
         mList.addAll(list)
         diffResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 
     inner class Holder(private val binding: HistoryListItemBinding) :

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph.xml"
+    app:startDestination="@id/historyListFragment">
+
+    <fragment
+        android:id="@+id/historyListFragment"
+        android:name="com.rachitbhutani.whysave.HistoryListFragment"
+        android:label="fragment_history_list"
+        tools:layout="@layout/fragment_history_list" >
+
+        <action
+            android:id="@+id/history_list_to_dialpad_fragment"
+            app:destination="@id/dialpad_fragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_down" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dialpad_fragment"
+        android:name="com.rachitbhutani.whysave.dialpad.DialpadFragment"
+        android:label="fragment_dialpad"
+        tools:layout="@layout/fragment_dialpad" />
+
+</navigation>

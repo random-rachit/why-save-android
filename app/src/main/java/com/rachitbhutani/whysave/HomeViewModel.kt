@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(private val contactDao: ContactItemDao) 
     val contactLiveData = MutableLiveData<List<ContactItem>>()
 
     fun fetchContacts() = viewModelScope.launch(Dispatchers.IO) {
-        val contacts = contactDao.getAllContacts()
+        val contacts = contactDao.getAllContacts().sortedByDescending { it.timestamp }
         contactLiveData.postValue(contacts)
     }
 
@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(private val contactDao: ContactItemDao) 
             timestamp = System.currentTimeMillis()
         )
         contactDao.insertContact(newContact)
-        contactLiveData.postValue(contactDao.getAllContacts())
+        contactLiveData.postValue(contactDao.getAllContacts().sortedByDescending { it.timestamp })
     }
 
 }
