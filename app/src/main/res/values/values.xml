@@ -4,4 +4,5 @@
     <attr name="textPrimaryColor" format="color"/>
     <attr name="textSecondaryColor" format="color"/>
 
+    <attr name="background_fade" format="color"/>
 </resources>

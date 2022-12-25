@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background_fade"
+    android:theme="@style/Theme.WhySave"
+    tools:context=".dialpad.DialpadFragment">
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="120dp"
+        android:autofillHints="phone"
+        android:background="@drawable/rounded_rectangle_8"
+        android:gravity="center"
+        android:imeActionId="@integer/et_dialpad_id"
+        android:imeOptions="actionGo"
+        android:inputType="phone"
+        android:maxLength="13"
+        android:maxLines="1"
+        android:padding="@dimen/dp_8"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="9876504414" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_whatsapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_24"
+        android:background="@color/teal_700"
+        android:contentDescription="@string/btn_whatsapp_desc"
+        android:gravity="center"
+        android:labelFor="@id/et_phone"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:tint="@color/black"
+        android:tintMode="multiply"
+        app:fabSize="normal"
+        app:iconPadding="@dimen/dp_8"
+        app:iconTint="@color/teal_700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/digital_glyph_black" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

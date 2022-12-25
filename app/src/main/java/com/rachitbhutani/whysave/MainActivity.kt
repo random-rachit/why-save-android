@@ -1,85 +1,83 @@
 package com.rachitbhutani.whysave
 
 import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.rachitbhutani.whysave.analytics.EventLogger
+import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
-import com.rachitbhutani.whysave.helper.showIf
+import com.rachitbhutani.whysave.helper.openWhatsapp
+import com.rachitbhutani.whysave.helper.showSnackBar
+import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhone
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), HistoryListItemListener {
+class MainActivity : AppCompatActivity() {
 
-    private var mAdapter: HistoryListAdapter? = null
+    @Inject
+    lateinit var eventLogger: EventLogger
+
     private lateinit var viewModel: HomeViewModel
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        setupUI()
-        handleIntent()
-        setupObservers()
+        setContentView(binding.root)
+        handleIntent(this.intent)
     }
 
-    private fun setupObservers() {
-        viewModel.contactLiveData.observe(this) {
-            mAdapter?.addItems(it)
-            handleEmptyView()
+    fun setupActionBar(title: String) {
+        supportActionBar?.apply {
+            this.title = title
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        R.color.teal_700
+                    )
+                )
+            )
+            elevation = 24f
         }
     }
 
-    private fun handleEmptyView() {
-        binding.emptyView.showIf(mAdapter?.itemCount == 0)
-        binding.rvHistory.showIf(mAdapter?.itemCount != 0)
-    }
-
-    private fun handleIntent() {
-        if (intent == null)
+    private fun handleIntent(currentIntent: Intent?) {
+        if (currentIntent == null)
             return
-        intent.clipData?.getItemAt(0)?.let {
+        currentIntent.clipData?.getItemAt(0)?.let {
+            eventLogger.sendFormatTrackerEvent(
+                it.text.toString().stripDigits(),
+                source = Source.INTENT
+            )
+
             val text = (if (it.text.startsWith("+"))
                 it.text.substring(1) else it.text.toString()).filter { c -> !c.isWhitespace() }
-            if (text.validatePhone()) {
-                viewModel.insertContact(text)
-                openWhatsapp(text)
-            }
+
+            handledRefinedText(text)
         }
     }
 
-    private fun setupUI() {
-        actionBar?.title = "Recent Chats"
-        mAdapter = HistoryListAdapter(this, this)
-        val llm =   LinearLayoutManager(this)
-        llm.orientation = LinearLayoutManager.VERTICAL
-        binding.rvHistory.layoutManager = llm
-
-        binding.rvHistory.adapter = mAdapter
-
-        viewModel.fetchContacts()
+    private fun handledRefinedText(text: String) {
+        if (text.validatePhone()) {
+            viewModel.insertContact(text)
+            openWhatsapp(text)
+        } else {
+            binding.root.showSnackBar("Invalid number")
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        handleIntent()
-    }
-
-    private fun openWhatsapp(phone: String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data =
-            Uri.parse("whatsapp://send/?phone=${if (phone.length == 10) "91" else ""}$phone")
-        startActivity(intent)
-    }
-
-    override fun onWhatsappClick(phone: String) {
-        openWhatsapp(phone)
-        viewModel.insertContact(phone)
+        handleIntent(intent)
     }
 }
