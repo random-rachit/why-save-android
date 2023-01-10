@@ -2,6 +2,7 @@ package com.rachitbhutani.whysave
 
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -11,7 +12,6 @@ import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
 import com.rachitbhutani.whysave.helper.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,22 +50,29 @@ class MainActivity : AppCompatActivity() {
     private fun handleIntent(currentIntent: Intent?) {
         if (currentIntent == null)
             return
-        currentIntent.clipData?.getItemAt(0)?.let {
+
+        (checkForExtraProcessText(currentIntent) ?: currentIntent.clipData?.getItemAt(0)?.text)?.let {
             eventLogger.sendFormatTrackerEvent(
-                it.text.toString().stripDigits(),
+                it.toString().stripDigits(),
                 source = Source.INTENT
             )
-
             val pattern = Regex("\"(.*)\"")
             val text: String
-            val matcher = pattern.containsMatchIn(it.text)
+            val matcher = pattern.containsMatchIn(it)
             text = if (matcher) {
-                val rawMatch = pattern.find(it.text)?.value
+                val rawMatch = pattern.find(it)?.value
                 rawMatch?.substring(1, rawMatch.lastIndex).orUnknown()
-            } else it.text.toString()
+            } else it.toString()
             handledRefinedText((if (text.startsWith("+")) text.substring(1) else text).filter { c -> !c.isWhitespace() })
         }
     }
+
+    private fun checkForExtraProcessText(currentIntent: Intent) =
+        if (currentIntent.action == Intent.ACTION_PROCESS_TEXT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) currentIntent.getStringExtra(Intent.EXTRA_PROCESS_TEXT)
+            else null
+        } else null
+
 
     private fun handledRefinedText(text: String) {
         if (text.validatePhone()) {

@@ -23,7 +23,7 @@ fun String?.formatPhoneNumber(): String {
     if (this == null) return ""
     var str = this
     if (this.length == 12)
-        str = "+${this.substring(0, 2)} ${this.substring(2, this.lastIndex)}"
+        str = "+${this.substring(0, 2)} ${this.substring(2, this.length)}"
     return str
 }
 
@@ -44,9 +44,10 @@ fun Activity.openWhatsapp(phone: String) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data =
         Uri.parse("whatsapp://send/?phone=${if (phone.length == 10) "91" else ""}$phone")
-    intent.resolveActivity(packageManager)?.let {
+    try {
         startActivity(intent)
-    } ?: run {
+    } catch (e: Exception) {
+        e.printStackTrace()
         Toast.makeText(this, "Whatsapp is not installed on the device", Toast.LENGTH_LONG).show()
     }
 }
