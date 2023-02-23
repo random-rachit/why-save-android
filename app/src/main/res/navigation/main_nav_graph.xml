@@ -9,13 +9,16 @@
         android:id="@+id/historyListFragment"
         android:name="com.rachitbhutani.whysave.HistoryListFragment"
         android:label="fragment_history_list"
-        tools:layout="@layout/fragment_history_list" >
+        tools:layout="@layout/fragment_history_list">
 
         <action
             android:id="@+id/history_list_to_dialpad_fragment"
             app:destination="@id/dialpad_fragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/history_list_to_tutorial_fragment"
+            app:destination="@id/tutorial_fragment" />
     </fragment>
 
     <fragment
@@ -23,5 +26,11 @@
         android:name="com.rachitbhutani.whysave.dialpad.DialpadFragment"
         android:label="fragment_dialpad"
         tools:layout="@layout/fragment_dialpad" />
+
+    <fragment
+        android:id="@+id/tutorial_fragment"
+        android:name="com.rachitbhutani.whysave.tutorial.TutorialFragment"
+        android:label="tutorial_fragment"
+        tools:layout="@layout/fragment_tutorial" />
 
 </navigation>

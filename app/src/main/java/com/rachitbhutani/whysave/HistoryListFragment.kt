@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -15,6 +17,7 @@ import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentHistoryListBinding
 import com.rachitbhutani.whysave.helper.*
+import com.rachitbhutani.whysave.tutorial.TutorialFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -45,6 +48,19 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObservers()
+        setupMenu()
+    }
+
+    private fun setupMenu() {
+        binding.toolbar.apply {
+            inflateMenu(R.menu.tutorial_menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.tutorial -> openTutorialFragment()
+                }
+                true
+            }
+        }
     }
 
 
@@ -63,9 +79,14 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
                 if (binding.ivTutorial.isVisible) "hide" else "view"
             )
             binding.ivTutorial.showIf(binding.ivTutorial.isVisible.not())
-
+            openTutorialFragment()
         }
         binding.rvHistory.showIf(mAdapter.itemCount != 0)
+    }
+
+    private fun openTutorialFragment() {
+        val action = HistoryListFragmentDirections.historyListToTutorialFragment()
+        findNavController().navigate(action)
     }
 
     private fun setupUI() {
@@ -94,7 +115,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().title = "Recent Chats"
+        binding.toolbar.title = "Recent Chats"
     }
 
     override fun onStart() {

@@ -4,6 +4,9 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +14,7 @@ import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
 import com.rachitbhutani.whysave.helper.*
+import com.rachitbhutani.whysave.tutorial.TutorialFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -51,7 +55,8 @@ class MainActivity : AppCompatActivity() {
         if (currentIntent == null)
             return
 
-        (checkForExtraProcessText(currentIntent) ?: currentIntent.clipData?.getItemAt(0)?.text)?.let {
+        (checkForExtraProcessText(currentIntent)
+            ?: currentIntent.clipData?.getItemAt(0)?.text)?.let {
             eventLogger.sendFormatTrackerEvent(
                 it.toString().stripDigits(),
                 source = Source.INTENT
@@ -86,5 +91,24 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         handleIntent(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.tutorial_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.tutorial -> {
+                openTutorialFragment()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun openTutorialFragment() {
+        val fragment = TutorialFragment()
+        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, fragment).commitNow()
     }
 }

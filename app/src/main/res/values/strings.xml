@@ -10,4 +10,6 @@
     <string name="start_a_chat">Start a chat</string>
     <string name="btn_whatsapp_desc">Click to open whatsapp chat with above mentioned number</string>
     <string name="tutorial_gif_view_desc">Tutorial Gif view</string>
+    <string name="done">Done</string>
+    <string name="how_it_works">How it works</string>
 </resources>

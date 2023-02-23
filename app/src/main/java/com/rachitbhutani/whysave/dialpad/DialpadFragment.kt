@@ -1,23 +1,21 @@
 package com.rachitbhutani.whysave.dialpad
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.rachitbhutani.whysave.HomeViewModel
-import com.rachitbhutani.whysave.MainActivity
 import com.rachitbhutani.whysave.R
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentDialpadBinding
 import com.rachitbhutani.whysave.helper.openWhatsapp
-import com.rachitbhutani.whysave.helper.showSnackBar
 import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhone
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,7 +75,7 @@ class DialpadFragment : Fragment() {
             eventLogger.sendFormatTrackerEvent(phone.stripDigits(), source = Source.DIALPAD)
             requireActivity().openWhatsapp(phone)
         } else {
-            binding.root.showSnackBar("Invalid number")
+            Toast.makeText(requireContext(), "Invalid Number", Toast.LENGTH_SHORT).show()
         }
     }
 
