@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.rachitbhutani.whysave.HomeViewModel
 import com.rachitbhutani.whysave.R
 import com.rachitbhutani.whysave.analytics.EventLogger
@@ -60,6 +61,9 @@ class DialpadFragment : Fragment() {
         showKeyboard()
         binding.btnWhatsapp.setOnClickListener {
             handleOpenWhatsapp()
+        }
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

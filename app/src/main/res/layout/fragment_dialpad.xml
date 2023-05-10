@@ -8,6 +8,16 @@
     android:theme="@style/Theme.WhySave"
     tools:context=".dialpad.DialpadFragment">
 
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:contentDescription="@string/go_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_chevron_left_24" />
+
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="240dp"
@@ -28,28 +38,29 @@
         android:textSize="@dimen/sp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back"
         tools:text="9876504414" />
 
     <ImageView
         android:id="@+id/btn_whatsapp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/teal_700"
+        android:background="?selectableItemBackgroundBorderless"
+        android:backgroundTint="@color/teal_700"
         android:contentDescription="@string/btn_whatsapp_desc"
-        android:gravity="center"
         android:elevation="@dimen/dp_8"
+        android:gravity="center"
         android:labelFor="@id/et_phone"
-        android:textAllCaps="false"
         android:padding="@dimen/dp_16"
-        app:tint="@color/white"
+        android:scaleType="fitCenter"
+        android:textAllCaps="false"
         app:fabSize="normal"
         app:iconPadding="@dimen/dp_8"
         app:iconTint="@color/teal_700"
-        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/digital_glyph_black" />
+        app:srcCompat="@drawable/digital_glyph_black"
+        app:tint="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
