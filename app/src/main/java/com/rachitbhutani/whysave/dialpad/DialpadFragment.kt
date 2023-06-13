@@ -17,11 +17,11 @@ import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentDialpadBinding
 import com.rachitbhutani.whysave.helper.openWhatsapp
+import com.rachitbhutani.whysave.helper.orUnknown
 import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhone
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class DialpadFragment : Fragment() {
@@ -68,12 +68,19 @@ class DialpadFragment : Fragment() {
     }
 
     private fun showKeyboard() {
-        val imm: InputMethodManager? = getSystemService(requireContext(), InputMethodManager::class.java)
+        val imm: InputMethodManager? =
+            getSystemService(requireContext(), InputMethodManager::class.java)
         imm?.showSoftInput(binding.etPhone, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun handleOpenWhatsapp() {
-        val phone = binding.etPhone.text.toString()
+        val text = binding.etPhone.text.toString().replace(" ","")
+        val pattern = Regex("\"(.*)\"")
+        val matcher = pattern.containsMatchIn(text)
+        val phone = if (matcher) {
+            val rawMatch = pattern.find(text)?.value
+            rawMatch?.substring(1, rawMatch.lastIndex).orUnknown()
+        } else text
         if (phone.validatePhone()) {
             viewModel.insertContact(phone)
             eventLogger.sendFormatTrackerEvent(phone.stripDigits(), source = Source.DIALPAD)

@@ -30,7 +30,6 @@
         android:imeActionId="@integer/et_dialpad_id"
         android:imeOptions="actionGo"
         android:inputType="phone"
-        android:maxLength="13"
         android:maxLines="1"
         android:padding="@dimen/dp_8"
         android:textColor="@color/white"
