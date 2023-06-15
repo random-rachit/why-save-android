@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -25,13 +26,12 @@ import javax.inject.Inject
 class HistoryListFragment : Fragment(), HistoryListItemListener {
 
     private lateinit var binding: FragmentHistoryListBinding
-
-    private lateinit var viewModel: HomeViewModel
-
     private lateinit var mAdapter: HistoryListAdapter
 
     @Inject
     lateinit var eventLogger: EventLogger
+
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,6 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentHistoryListBinding.inflate(inflater)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         mAdapter = HistoryListAdapter(requireContext(), this)
         return binding.root
     }
