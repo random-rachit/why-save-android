@@ -4,9 +4,4 @@
     <color name="teal_700">#005A59</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
-    
-    <color name="night">#0D0A0B</color>
-    <color name="magnolia">#F3EFF5</color>
-    <color name="ice_blue">#90FCF9</color>
-    <color name="byzantium">#7A306C</color>
 </resources>

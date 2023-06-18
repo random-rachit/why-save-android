@@ -5,15 +5,16 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.rachitbhutani.whysave.analytics.EventLogger
-import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
-import com.rachitbhutani.whysave.helper.*
+import com.rachitbhutani.whysave.helper.PhoneNumberUtil
+import com.rachitbhutani.whysave.helper.openWhatsapp
+import com.rachitbhutani.whysave.helper.showSnackBar
+import com.rachitbhutani.whysave.helper.validatePhoneNumber
 import com.rachitbhutani.whysave.tutorial.TutorialFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var eventLogger: EventLogger
+
+    @Inject
+    lateinit var phoneNumberUtil: PhoneNumberUtil
 
     private lateinit var viewModel: HomeViewModel
 
@@ -54,21 +58,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleIntent(currentIntent: Intent?) {
         if (currentIntent == null)
             return
-
         (checkForExtraProcessText(currentIntent)
-            ?: currentIntent.clipData?.getItemAt(0)?.text)?.let {
-            eventLogger.sendFormatTrackerEvent(
-                it.toString().stripDigits(),
-                source = Source.INTENT
-            )
-            val pattern = Regex("\"(.*)\"")
-            val text: String
-            val matcher = pattern.containsMatchIn(it)
-            text = if (matcher) {
-                val rawMatch = pattern.find(it)?.value
-                rawMatch?.substring(1, rawMatch.lastIndex).orUnknown()
-            } else it.toString()
-            handledRefinedText((if (text.startsWith("+")) text.substring(1) else text).filter { c -> !c.isWhitespace() })
+            ?: currentIntent.clipData?.getItemAt(0)?.text)?.let { rawText ->
+            val refinedText = viewModel.refineRawText(rawText)
+            handledRefinedText(refinedText)
         }
     }
 
@@ -78,9 +71,8 @@ class MainActivity : AppCompatActivity() {
             else null
         } else null
 
-
     private fun handledRefinedText(text: String) {
-        if (text.validatePhone()) {
+        if (text.validatePhoneNumber()) {
             viewModel.insertContact(text)
             openWhatsapp(text)
         } else {
@@ -96,15 +88,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.tutorial_menu, menu)
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.tutorial -> {
-                openTutorialFragment()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun openTutorialFragment() {

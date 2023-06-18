@@ -14,4 +14,10 @@
     <string name="how_it_works">How it works</string>
     <string name="go_back">Go back</string>
     <string name="enter_your_number_here">Enter your number here</string>
+    <string name="app_symbol">¯\\_(ツ)_/¯</string>
+    <string name="history">History</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="how_to">How to?</string>
+    <string name="what_s_new">What\'s New?</string>
+    <string name="open_chat_in_whatsapp">Open chat in whatsapp</string>
 </resources>

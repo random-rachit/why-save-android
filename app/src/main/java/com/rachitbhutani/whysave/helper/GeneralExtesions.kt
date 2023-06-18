@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.text.isDigitsOnly
 import com.google.android.material.snackbar.Snackbar
 
-fun String.validatePhone(): Boolean {
+fun String.validatePhoneNumber(): Boolean {
     val isValidLength = length == 12 || length == 10 || length == 13
     if (!isValidLength)
         return false

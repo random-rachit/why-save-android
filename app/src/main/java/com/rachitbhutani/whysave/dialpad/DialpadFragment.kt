@@ -19,7 +19,7 @@ import com.rachitbhutani.whysave.databinding.FragmentDialpadBinding
 import com.rachitbhutani.whysave.helper.openWhatsapp
 import com.rachitbhutani.whysave.helper.orUnknown
 import com.rachitbhutani.whysave.helper.stripDigits
-import com.rachitbhutani.whysave.helper.validatePhone
+import com.rachitbhutani.whysave.helper.validatePhoneNumber
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -81,7 +81,7 @@ class DialpadFragment : Fragment() {
             val rawMatch = pattern.find(text)?.value
             rawMatch?.substring(1, rawMatch.lastIndex).orUnknown()
         } else text
-        if (phone.validatePhone()) {
+        if (phone.validatePhoneNumber()) {
             viewModel.insertContact(phone)
             eventLogger.sendFormatTrackerEvent(phone.stripDigits(), source = Source.DIALPAD)
             requireActivity().openWhatsapp(phone)

@@ -13,7 +13,10 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_8"
-        android:text="¯\\_(ツ)_/¯"
+        android:shadowColor="?attr/textPrimaryColor"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:text="@string/app_symbol"
         android:textColor="@color/teal_700"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -35,6 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
         <EditText
+            android:id="@+id/et_dialpad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -42,6 +46,7 @@
             android:gravity="center"
             android:hint="@string/enter_your_number_here"
             android:imeOptions="actionGo"
+            android:importantForAutofill="no"
             android:inputType="phone"
             android:textColor="@color/white"
             android:textColorHint="#41FFFFFF"
@@ -66,9 +71,11 @@
             android:id="@+id/tv_history_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="History"
-            android:textColor="@color/black"
+            android:drawablePadding="@dimen/dp_4"
+            android:text="@string/history"
+            android:textColor="?attr/textPrimaryColor"
             android:textStyle="bold"
+            app:drawableTint="?attr/textPrimaryColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,7 +84,47 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_4"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_history_label" />
+
+        <TextView
+            android:id="@+id/tv_whats_new"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_4"
+            android:text="@string/what_s_new"
+            android:textColor="#003921"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_how_to"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/tv_how_to"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_4"
+            android:text="@string/how_to"
+            android:textColor="#003921"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_contact_us"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/tv_whats_new"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/tv_contact_us"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_4"
+            android:text="@string/contact_us"
+            android:textColor="#003921"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/tv_how_to"
+            app:layout_constraintWidth_default="wrap" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--    <ImageView-->
@@ -104,21 +151,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_keypad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/dp_24"
-        android:background="@color/teal_700"
-        android:contentDescription="@string/fab_content_desc"
-        android:elevation="@dimen/dp_24"
-        android:src="@drawable/ic_baseline_dialpad_24"
-        android:tint="@color/white"
-        android:tintMode="multiply"
-        android:visibility="gone"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
