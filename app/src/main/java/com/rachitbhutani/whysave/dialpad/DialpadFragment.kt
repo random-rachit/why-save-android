@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,6 +16,7 @@ import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentDialpadBinding
 import com.rachitbhutani.whysave.helper.openWhatsapp
 import com.rachitbhutani.whysave.helper.orUnknown
+import com.rachitbhutani.whysave.helper.showKeyboard
 import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhoneNumber
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,19 +57,13 @@ class DialpadFragment : Fragment() {
             return@setOnEditorActionListener true
         }
         binding.etPhone.requestFocus()
-        showKeyboard()
+        requireContext().showKeyboard(binding.etPhone)
         binding.btnWhatsapp.setOnClickListener {
             handleOpenWhatsapp()
         }
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
-    }
-
-    private fun showKeyboard() {
-        val imm: InputMethodManager? =
-            getSystemService(requireContext(), InputMethodManager::class.java)
-        imm?.showSoftInput(binding.etPhone, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun handleOpenWhatsapp() {

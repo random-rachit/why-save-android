@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentHistoryListBinding
+import com.rachitbhutani.whysave.helper.hideKeyboard
 import com.rachitbhutani.whysave.helper.openWhatsapp
 import com.rachitbhutani.whysave.helper.showIf
 import com.rachitbhutani.whysave.helper.stripDigits
@@ -69,6 +70,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
 
     private fun setupUI() {
         setupRecyclerView()
+
         binding.etDialpad.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 val refinedText = viewModel.refineRawText(binding.etDialpad.text.toString())
@@ -79,12 +81,19 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
                         source = Source.DIALPAD
                     )
                     requireActivity().openWhatsapp(refinedText)
+                    binding.etDialpad.isFocusable = false
+                    requireContext().hideKeyboard(v)
                 } else {
-                    Toast.makeText(requireContext(), "Invalid Number", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.invalid_number),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             return@setOnEditorActionListener true
         }
+
         binding.emptyView.text = String.format(getString(R.string.empty_view_desc), "view")
     }
 

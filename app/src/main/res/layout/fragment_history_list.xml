@@ -56,12 +56,13 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ll_history"
+        android:id="@+id/cl_history"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/dp_16"
         android:background="@drawable/bs_background"
         android:elevation="@dimen/dp_16"
+        android:focusableInTouchMode="true"
         android:padding="@dimen/dp_16"
         app:cardCornerRadius="@dimen/dp_20"
         app:layout_constraintBottom_toBottomOf="parent"
