@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
@@ -18,6 +17,7 @@ import com.rachitbhutani.whysave.helper.openWhatsapp
 import com.rachitbhutani.whysave.helper.showIf
 import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhoneNumber
+import com.rachitbhutani.whysave.view.EmptyView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -55,17 +55,24 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     }
 
     private fun handleEmptyView() {
-        binding.emptyView.showIf(mAdapter.itemCount == 0)
-        binding.emptyView.setOnClickListener {
-            binding.emptyView.text = String.format(getString(R.string.empty_view_desc))
-            openTutorialFragment()
+        val show = mAdapter.itemCount == 0
+        binding.run {
+            evHistory.showIf(show)
+            evHistory.setData(
+                EmptyView.Data(
+                    getString(R.string.empty_view_text),
+                    getString(R.string.watch_tutorial)
+                )
+            ) {
+                openTutorialBottomSheet()
+            }
+            rvHistory.showIf(show.not())
+            tvHistoryLabel.showIf(show.not())
         }
-        binding.rvHistory.showIf(mAdapter.itemCount != 0)
     }
 
-    private fun openTutorialFragment() {
-        val action = HistoryListFragmentDirections.historyListToTutorialFragment()
-        findNavController().navigate(action)
+    private fun openTutorialBottomSheet() {
+        TODO("Open Tutorial Bottom Sheet")
     }
 
     private fun setupUI() {
@@ -93,8 +100,6 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
             }
             return@setOnEditorActionListener true
         }
-
-        binding.emptyView.text = String.format(getString(R.string.empty_view_desc), "view")
     }
 
     private fun setupRecyclerView() {

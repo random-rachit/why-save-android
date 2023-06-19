@@ -1,13 +1,9 @@
 package com.rachitbhutani.whysave
 
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.databinding.ActivityMainBinding
@@ -15,7 +11,6 @@ import com.rachitbhutani.whysave.helper.PhoneNumberUtil
 import com.rachitbhutani.whysave.helper.openWhatsapp
 import com.rachitbhutani.whysave.helper.showSnackBar
 import com.rachitbhutani.whysave.helper.validatePhoneNumber
-import com.rachitbhutani.whysave.tutorial.TutorialFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -38,21 +33,6 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         setContentView(binding.root)
         handleIntent(this.intent)
-        setupActionBar()
-    }
-
-    private fun setupActionBar() {
-        supportActionBar?.apply {
-            setBackgroundDrawable(
-                ColorDrawable(
-                    ContextCompat.getColor(
-                        this@MainActivity,
-                        R.color.teal_700
-                    )
-                )
-            )
-            elevation = 24f
-        }
     }
 
     private fun handleIntent(currentIntent: Intent?) {
@@ -83,15 +63,5 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         handleIntent(intent)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.tutorial_menu, menu)
-        return true
-    }
-
-    private fun openTutorialFragment() {
-        val fragment = TutorialFragment()
-        supportFragmentManager.beginTransaction().add(binding.frameLayout.id, fragment).commitNow()
     }
 }

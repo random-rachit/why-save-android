@@ -5,6 +5,6 @@
     <corners
         android:topLeftRadius="@dimen/dp_20"
         android:topRightRadius="@dimen/dp_20" />
-    <solid android:color="@color/white" />
+    <solid android:color="?attr/contrastPrimaryColor" />
 
 </shape>

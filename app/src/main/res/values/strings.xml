@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">WhySave</string>
     <string name="your_recent_chats">Your Recent Chats</string>
-    <string name="empty_view_desc">Share a number via Why Save and it will appear here. Click to %s tutorial</string>
     <string name="recent_chats">Recent Chats</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,4 +20,6 @@
     <string name="what_s_new">What\'s New?</string>
     <string name="open_chat_in_whatsapp">Open chat in whatsapp</string>
     <string name="invalid_number">Invalid Number</string>
+    <string name="empty_view_text">Chats you have opened will appear here.\nNot sure how to use?</string>
+    <string name="watch_tutorial">Watch Tutorial</string>
 </resources>

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="?attr/background_fade"
     app:theme="@style/Theme.WhySave"
-    android:animateLayoutChanges="true"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -20,5 +20,5 @@
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
