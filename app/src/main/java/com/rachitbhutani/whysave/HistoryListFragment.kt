@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
@@ -72,7 +73,8 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     }
 
     private fun openTutorialBottomSheet() {
-        TODO("Open Tutorial Bottom Sheet")
+        val action = HistoryListFragmentDirections.historyListToBottomSheet()
+        findNavController().navigate(action)
     }
 
     private fun setupUI() {
@@ -99,6 +101,10 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
                 }
             }
             return@setOnEditorActionListener true
+        }
+
+        binding.tvHowTo.setOnClickListener {
+            openTutorialBottomSheet()
         }
     }
 

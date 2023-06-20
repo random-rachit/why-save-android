@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.WhySave" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
@@ -6,6 +6,7 @@
         <item name="textSecondaryColor">#407760</item>
         <item name="colorDivider">#3A3A3A</item>
         <item name="contrastPrimaryColor">#072B1B</item>
+        <item name="accentPrimaryColor">#00B066</item>
         <item name="background_fade">#2A3534</item>
     </style>
 </resources>

@@ -5,6 +5,7 @@
         <item name="textSecondaryColor">#003921</item>
         <item name="colorDivider">#3A3A3A</item>
         <item name="contrastPrimaryColor">#FFFFFF</item>
+        <item name="accentPrimaryColor">#084028</item>
         <item name="background_fade">#2A3534</item>
     </style>
 </resources>

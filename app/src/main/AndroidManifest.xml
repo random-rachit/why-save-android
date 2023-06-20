@@ -16,6 +16,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher_why_save"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_why_save_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhySave"

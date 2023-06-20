@@ -22,4 +22,10 @@
     <string name="invalid_number">Invalid Number</string>
     <string name="empty_view_text">Chats you have opened will appear here.\nNot sure how to use?</string>
     <string name="watch_tutorial">Watch Tutorial</string>
+    <string name="skip">Skip</string>
+    <string name="got_it">Got it</string>
+    <string name="how_to_use">How to use?</string>
+    <string name="tut_1">You’ll see a Why Save button when any text is selected. And with just a tap, you’re on</string>
+    <string name="tut_2">Share a phone number via why save, and jump straight into the WhatsApp chat.</string>
+    <string name="tut_3">Or just open the Why Save app and type in the phone number you want to text. It’s that simple.</string>
 </resources>
