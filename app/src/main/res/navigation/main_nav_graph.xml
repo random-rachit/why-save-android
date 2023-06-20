@@ -10,27 +10,16 @@
         android:name="com.rachitbhutani.whysave.HistoryListFragment"
         android:label="fragment_history_list"
         tools:layout="@layout/fragment_history_list">
-
         <action
-            android:id="@+id/history_list_to_dialpad_fragment"
-            app:destination="@id/dialpad_fragment"
+            android:id="@+id/history_list_to_bottom_sheet"
+            app:destination="@id/bottom_sheet_dialog"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/slide_out_down" />
-        <action
-            android:id="@+id/history_list_to_tutorial_fragment"
-            app:destination="@id/tutorial_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/dialpad_fragment"
-        android:name="com.rachitbhutani.whysave.dialpad.DialpadFragment"
-        android:label="fragment_dialpad"
-        tools:layout="@layout/fragment_dialpad" />
-
-    <fragment
-        android:id="@+id/tutorial_fragment"
-        android:name="com.rachitbhutani.whysave.tutorial.TutorialFragment"
-        android:label="tutorial_fragment"
-        tools:layout="@layout/fragment_tutorial" />
-
+        android:id="@+id/bottom_sheet_dialog"
+        android:name="com.rachitbhutani.whysave.view.bottomsheet.WhySaveTutorialFragment"
+        android:label="fragment_bottom_sheet"
+        tools:layout="@layout/fragment_why_save_tutorial" />
 </navigation>

@@ -32,7 +32,7 @@ class HistoryListAdapter(
         fun bindData(data: ContactItem) {
             binding.tvPhone.text = data.phone.formatPhoneNumber()
             binding.tvTime.text = DateHelper.mapTimestampToTime(data.timestamp)
-            binding.root.setOnClickListener {
+            binding.ivOpenChat.setOnClickListener {
                 listener.onWhatsappClick(data.phone.orEmpty())
             }
         }

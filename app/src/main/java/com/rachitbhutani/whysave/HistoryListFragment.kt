@@ -4,20 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.isVisible
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentHistoryListBinding
-import com.rachitbhutani.whysave.helper.*
-import com.rachitbhutani.whysave.tutorial.TutorialFragment
+import com.rachitbhutani.whysave.helper.hideKeyboard
+import com.rachitbhutani.whysave.helper.openWhatsapp
+import com.rachitbhutani.whysave.helper.showIf
+import com.rachitbhutani.whysave.helper.stripDigits
+import com.rachitbhutani.whysave.helper.validatePhoneNumber
+import com.rachitbhutani.whysave.view.EmptyView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,21 +26,18 @@ import javax.inject.Inject
 class HistoryListFragment : Fragment(), HistoryListItemListener {
 
     private lateinit var binding: FragmentHistoryListBinding
-
-    private lateinit var viewModel: HomeViewModel
-
     private lateinit var mAdapter: HistoryListAdapter
 
     @Inject
     lateinit var eventLogger: EventLogger
 
+    private val viewModel: HomeViewModel by viewModels()
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentHistoryListBinding.inflate(inflater)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         mAdapter = HistoryListAdapter(requireContext(), this)
         return binding.root
     }
@@ -48,21 +46,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObservers()
-        setupMenu()
     }
-
-    private fun setupMenu() {
-        binding.toolbar.apply {
-            inflateMenu(R.menu.tutorial_menu)
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.tutorial -> openTutorialFragment()
-                }
-                true
-            }
-        }
-    }
-
 
     private fun setupObservers() {
         viewModel.contactLiveData.observe(requireActivity()) {
@@ -72,32 +56,56 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     }
 
     private fun handleEmptyView() {
-        binding.emptyView.showIf(mAdapter.itemCount == 0)
-        binding.emptyView.setOnClickListener {
-            binding.emptyView.text = String.format(
-                getString(R.string.empty_view_desc),
-                if (binding.ivTutorial.isVisible) "hide" else "view"
-            )
-            binding.ivTutorial.showIf(binding.ivTutorial.isVisible.not())
-            openTutorialFragment()
+        val show = mAdapter.itemCount == 0
+        binding.run {
+            evHistory.showIf(show)
+            evHistory.setData(
+                EmptyView.Data(
+                    getString(R.string.empty_view_text),
+                    getString(R.string.watch_tutorial)
+                )
+            ) {
+                openTutorialBottomSheet()
+            }
+            rvHistory.showIf(show.not())
+            tvHistoryLabel.showIf(show.not())
         }
-        binding.rvHistory.showIf(mAdapter.itemCount != 0)
     }
 
-    private fun openTutorialFragment() {
-        val action = HistoryListFragmentDirections.historyListToTutorialFragment()
+    private fun openTutorialBottomSheet() {
+        val action = HistoryListFragmentDirections.historyListToBottomSheet()
         findNavController().navigate(action)
     }
 
     private fun setupUI() {
         setupRecyclerView()
-        binding.btnKeypad.setOnClickListener {
-            val action = HistoryListFragmentDirections.historyListToDialpadFragment()
-            it.findNavController().navigate(action)
+
+        binding.etDialpad.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                val refinedText = viewModel.refineRawText(binding.etDialpad.text.toString())
+                if (refinedText.validatePhoneNumber()) {
+                    viewModel.insertContact(refinedText)
+                    eventLogger.sendFormatTrackerEvent(
+                        refinedText.stripDigits(),
+                        source = Source.DIALPAD
+                    )
+                    requireActivity().openWhatsapp(refinedText)
+                    binding.etDialpad.isFocusable = false
+                    requireContext().hideKeyboard(v)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.invalid_number),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            return@setOnEditorActionListener true
         }
-        binding.emptyView.text = String.format(getString(R.string.empty_view_desc), "view")
-        Glide.with(this).asGif().load(R.raw.tutorial_square)
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(binding.ivTutorial)
+
+        binding.tvHowTo.setOnClickListener {
+            openTutorialBottomSheet()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -111,11 +119,6 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
         eventLogger.sendFormatTrackerEvent(phone.stripDigits(), source = Source.LIST)
         activity?.openWhatsapp(phone)
         viewModel.insertContact(phone)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.toolbar.title = "Recent Chats"
     }
 
     override fun onStart() {

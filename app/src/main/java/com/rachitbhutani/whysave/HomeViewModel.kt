@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rachitbhutani.whysave.database.ContactItemDao
+import com.rachitbhutani.whysave.helper.PhoneNumberUtil
 import com.rachitbhutani.whysave.model.ContactItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val contactDao: ContactItemDao) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val contactDao: ContactItemDao,
+    private val phoneNumberUtil: PhoneNumberUtil
+) : ViewModel() {
 
     val contactLiveData = MutableLiveData<List<ContactItem>>()
 
@@ -28,6 +32,10 @@ class HomeViewModel @Inject constructor(private val contactDao: ContactItemDao) 
         )
         contactDao.insertContact(newContact)
         contactLiveData.postValue(contactDao.getAllContacts().sortedByDescending { it.timestamp })
+    }
+
+    fun refineRawText(rawText: CharSequence): String {
+        return phoneNumberUtil.refinePhoneNumber(rawText.toString())
     }
 
 }

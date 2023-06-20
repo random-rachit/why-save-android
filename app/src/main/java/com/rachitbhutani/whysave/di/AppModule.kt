@@ -1,16 +1,9 @@
 package com.rachitbhutani.whysave.di
 
 import android.app.Application
-import android.content.Context
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
-import com.rachitbhutani.whysave.HistoryListAdapter
-import com.rachitbhutani.whysave.HistoryListFragment
-import com.rachitbhutani.whysave.HomeViewModel
 import com.rachitbhutani.whysave.database.AppDatabase
 import com.rachitbhutani.whysave.database.ContactItemDao
 import dagger.Module

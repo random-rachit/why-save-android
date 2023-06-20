@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_4"
-    android:paddingHorizontal="@dimen/dp_16"
-    android:paddingTop="@dimen/dp_16"
+    android:paddingVertical="@dimen/dp_16"
     android:theme="@style/Theme.WhySave">
 
     <TextView
@@ -14,26 +13,45 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:textColor="?attr/textPrimaryColor"
-        android:textSize="@dimen/sp_16"
-        android:textStyle="bold"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="+919876543210" />
+
+    <ImageView
+        android:id="@+id/iv_note_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_note_12"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tv_phone"
+        app:layout_constraintStart_toEndOf="@id/tv_phone"
+        app:layout_constraintTop_toTopOf="@id/tv_phone"
+        app:tint="?attr/textPrimaryColor" />
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintStart_toStartOf="@id/tv_phone"
         app:layout_constraintTop_toBottomOf="@id/tv_phone"
         tools:text="04:09 PM" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/textSecondaryColor"
-        android:layout_marginTop="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@id/tv_time"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+        android:id="@+id/iv_open_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:contentDescription="@string/open_chat_in_whatsapp"
+        android:padding="@dimen/dp_4"
+        android:src="@drawable/baseline_send_24"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_phone"
+        app:tint="?attr/textPrimaryColor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

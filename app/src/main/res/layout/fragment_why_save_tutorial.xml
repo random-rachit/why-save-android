@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:background="?attr/contrastPrimaryColor"
+    android:padding="@dimen/dp_16"
+    android:theme="@style/Theme.WhySave"
+    tools:context=".view.bottomsheet.WhySaveTutorialFragment">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/how_to_use"
+        android:textColor="?attr/textPrimaryColor"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.rachitbhutani.whysave.view.ImageLabelView
+        android:id="@+id/ilv_tut_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:background="?attr/contrastPrimaryColor"
+        app:image="@drawable/whysave_tut_1"
+        app:layout_constraintBottom_toTopOf="@id/ilv_tut_2"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:title="@string/tut_1" />
+
+    <com.rachitbhutani.whysave.view.ImageLabelView
+        android:id="@+id/ilv_tut_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_24"
+        android:background="?attr/contrastPrimaryColor"
+        app:image="@drawable/whysave_tut_3"
+        app:layout_constraintBottom_toTopOf="@id/btn_action"
+        app:layout_constraintTop_toBottomOf="@id/ilv_tut_1"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:title="@string/tut_3" />
+
+    <Button
+        android:id="@+id/btn_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:backgroundTint="?attr/accentPrimaryColor"
+        android:text="@string/got_it"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ilv_tut_2"
+        app:layout_constraintVertical_bias="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

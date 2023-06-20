@@ -1,15 +1,21 @@
 package com.rachitbhutani.whysave.helper
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.ResultReceiver
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
 import com.google.android.material.snackbar.Snackbar
 
-fun String.validatePhone(): Boolean {
+fun String.validatePhoneNumber(): Boolean {
     val isValidLength = length == 12 || length == 10 || length == 13
+    if (startsWith("+") && length < 13)
+        return false
     if (!isValidLength)
         return false
     if (length == 13 && !startsWith("+"))
@@ -83,4 +89,19 @@ fun View.showSnackBar(message: String, function: (() -> Unit)? = null) {
         }
         show()
     }
+}
+
+/**
+ * Keyboard Extensions
+ */
+fun Context.showKeyboard(view: View) {
+    val imm: InputMethodManager? =
+        ContextCompat.getSystemService(this, InputMethodManager::class.java)
+    imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+}
+
+fun Context.hideKeyboard(view: View) {
+    val imm: InputMethodManager? =
+        ContextCompat.getSystemService(this, InputMethodManager::class.java)
+    imm?.hideSoftInputFromWindow(view.windowToken, 0)
 }

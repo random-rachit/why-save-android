@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">WhySave</string>
     <string name="your_recent_chats">Your Recent Chats</string>
-    <string name="empty_view_desc">Share a number via Why Save and it will appear here. Click to %s tutorial</string>
     <string name="recent_chats">Recent Chats</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -13,4 +12,20 @@
     <string name="done">Done</string>
     <string name="how_it_works">How it works</string>
     <string name="go_back">Go back</string>
+    <string name="enter_your_number_here">Enter your number here</string>
+    <string name="app_symbol">¯\\_(ツ)_/¯</string>
+    <string name="history">History</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="how_to">How to?</string>
+    <string name="what_s_new">What\'s New?</string>
+    <string name="open_chat_in_whatsapp">Open chat in whatsapp</string>
+    <string name="invalid_number">Invalid Number</string>
+    <string name="empty_view_text">Chats you have opened will appear here.\nNot sure how to use?</string>
+    <string name="watch_tutorial">Watch Tutorial</string>
+    <string name="skip">Skip</string>
+    <string name="got_it">Got it</string>
+    <string name="how_to_use">How to use?</string>
+    <string name="tut_1">You’ll see a Why Save button when any text is selected. And with just a tap, you’re on</string>
+    <string name="tut_2">Share a phone number via why save, and jump straight into the WhatsApp chat.</string>
+    <string name="tut_3">Or just open the Why Save app and type in the phone number you want to text. It’s that simple.</string>
 </resources>
