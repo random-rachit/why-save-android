@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rachitbhutani.whysave.analytics.EventLogger
@@ -20,6 +21,8 @@ import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhoneNumber
 import com.rachitbhutani.whysave.view.EmptyView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,6 +49,17 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObservers()
+        showTutorial()
+    }
+
+    private fun showTutorial() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isUserOnboarded.collectLatest {
+                if (it.not()) {
+                    openTutorialFragment()
+                }
+            }
+        }
     }
 
     private fun setupObservers() {
@@ -65,14 +79,14 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
                     getString(R.string.watch_tutorial)
                 )
             ) {
-                openTutorialBottomSheet()
+                openTutorialFragment()
             }
             rvHistory.showIf(show.not())
             tvHistoryLabel.showIf(show.not())
         }
     }
 
-    private fun openTutorialBottomSheet() {
+    private fun openTutorialFragment() {
         val action = HistoryListFragmentDirections.historyListToBottomSheet()
         findNavController().navigate(action)
     }
@@ -104,7 +118,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
         }
 
         binding.tvHowTo.setOnClickListener {
-            openTutorialBottomSheet()
+            openTutorialFragment()
         }
     }
 
