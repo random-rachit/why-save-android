@@ -48,7 +48,7 @@
             android:background="@android:color/transparent"
             android:gravity="center"
             android:hint="@string/enter_your_number_here"
-            android:imeOptions="actionGo"
+            android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="phone"
             android:textColor="@color/white"

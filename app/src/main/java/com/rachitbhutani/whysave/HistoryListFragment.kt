@@ -102,7 +102,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
 
         setupRecyclerView()
 
-        binding.etDialpad.setImeActionListener(EditorInfo.IME_ACTION_GO) { v ->
+        binding.etDialpad.setImeActionListener(EditorInfo.IME_ACTION_DONE) { v ->
             val refinedText = viewModel.refineRawText(binding.etDialpad.text.toString())
             if (refinedText.validatePhoneNumber()) {
                 viewModel.insertContact(refinedText)
@@ -120,13 +120,6 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
-
-        binding.etDialpad.setOnEditorActionListener { v, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-
-            }
-            return@setOnEditorActionListener true
         }
 
         binding.tvHowTo.setOnClickListener {

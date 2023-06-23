@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rachitbhutani.whysave.databinding.HistoryListItemBinding
 import com.rachitbhutani.whysave.helper.DateHelper
 import com.rachitbhutani.whysave.helper.formatPhoneNumber
+import com.rachitbhutani.whysave.helper.showIf
 import com.rachitbhutani.whysave.model.ContactItem
 
 class HistoryListAdapter(
@@ -29,16 +30,15 @@ class HistoryListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindData(data: ContactItem) {
-            binding.tvPhone.text = data.phone.formatPhoneNumber()
-            binding.tvTime.text =
-                DateHelper.mapTimestampToSingleLineString(
-                    data.logList?.lastOrNull() ?: data.timestamp
-                )
-            binding.ivOpenChat.setOnClickListener {
-                listener.onWhatsappClick(data.phone.orEmpty())
-            }
-            binding.root.setOnClickListener {
-                listener.onItemClick(data.phone.orEmpty())
+            binding.run {
+                tvPhone.text = data.phone.formatPhoneNumber()
+                tvTime.text =
+                    DateHelper.mapTimestampToSingleLineString(
+                        data.logList?.lastOrNull() ?: data.timestamp
+                    )
+                ivOpenChat.setOnClickListener { listener.onWhatsappClick(data.phone.orEmpty()) }
+                root.setOnClickListener { listener.onItemClick(data.phone.orEmpty()) }
+                ivNoteLabel.showIf(data.note?.isNotEmpty() ?: false)
             }
         }
     }

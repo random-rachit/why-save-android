@@ -93,7 +93,7 @@ fun View.showSnackBar(message: String, function: (() -> Unit)? = null) {
 }
 
 fun EditText.setImeActionListener(imeAction: Int, function: (view: View) -> Unit) {
-    setOnEditorActionListener { v, actionId, _ ->
+    this.setOnEditorActionListener { v, actionId, _ ->
         if (actionId == imeAction) {
             function.invoke(v)
         }
