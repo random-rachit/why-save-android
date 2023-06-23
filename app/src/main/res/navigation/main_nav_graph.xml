@@ -11,10 +11,14 @@
         android:label="fragment_history_list"
         tools:layout="@layout/fragment_history_list">
         <action
-            android:id="@+id/history_list_to_bottom_sheet"
+            android:id="@+id/history_list_to_tutorial"
             app:destination="@id/bottom_sheet_dialog"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/slide_out_down" />
+
+        <action
+            android:id="@+id/history_list_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
     </fragment>
 
     <fragment
@@ -22,4 +26,15 @@
         android:name="com.rachitbhutani.whysave.view.bottomsheet.WhySaveTutorialFragment"
         android:label="fragment_bottom_sheet"
         tools:layout="@layout/fragment_why_save_tutorial" />
+
+    <fragment
+        android:id="@+id/detail_fragment"
+        android:name="com.rachitbhutani.whysave.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="number"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 </navigation>

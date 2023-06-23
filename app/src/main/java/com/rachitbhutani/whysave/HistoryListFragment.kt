@@ -87,7 +87,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     }
 
     private fun openTutorialFragment() {
-        val action = HistoryListFragmentDirections.historyListToBottomSheet()
+        val action = HistoryListFragmentDirections.historyListToTutorial()
         findNavController().navigate(action)
     }
 
@@ -104,7 +104,7 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
                         source = Source.DIALPAD
                     )
                     requireActivity().openWhatsapp(refinedText)
-                    binding.etDialpad.isFocusable = false
+                    binding.etDialpad.clearFocus()
                     requireContext().hideKeyboard(v)
                 } else {
                     Toast.makeText(
@@ -133,6 +133,11 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
         eventLogger.sendFormatTrackerEvent(phone.stripDigits(), source = Source.LIST)
         activity?.openWhatsapp(phone)
         viewModel.insertContact(phone)
+    }
+
+    override fun onItemClick(phone: String) {
+        val action = HistoryListFragmentDirections.historyListToDetailFragment(phone)
+        findNavController().navigate(action)
     }
 
     override fun onStart() {

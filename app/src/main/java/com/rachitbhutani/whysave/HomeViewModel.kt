@@ -9,6 +9,7 @@ import com.rachitbhutani.whysave.helper.WhySaveDataStore
 import com.rachitbhutani.whysave.model.ContactItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,18 +24,31 @@ class HomeViewModel @Inject constructor(
 
     val isUserOnboarded = dataStore.isUserOnboarded()
 
+    val detailContactFlow = MutableStateFlow<ContactItem?>(null)
+
     fun fetchContacts() = viewModelScope.launch(Dispatchers.IO) {
-        val contacts = contactDao.getAllContacts().sortedByDescending { it.timestamp }
+        val contacts =
+            contactDao.getAllContacts().sortedByDescending { it.timestamp }
         contactLiveData.postValue(contacts)
     }
 
     fun insertContact(phone: String) = viewModelScope.launch(Dispatchers.IO) {
         val contactItem = contactDao.findContact(phone)
-        val newContact = contactItem?.copy(timestamp = System.currentTimeMillis()) ?: ContactItem(
-            phone = phone, timestamp = System.currentTimeMillis()
-        )
+        val currentTimestamp = System.currentTimeMillis()
+        val newContact =
+            contactItem?.copy(timestamp = currentTimestamp, logList = ArrayDeque<Long>().apply {
+                addAll(contactItem.logList.orEmpty())
+                addLast(currentTimestamp)
+                while (size > 10) removeFirst()
+            }.toList()) ?: ContactItem(
+                phone = phone,
+                timestamp = currentTimestamp,
+                logList = listOf(currentTimestamp)
+            )
         contactDao.insertContact(newContact)
-        contactLiveData.postValue(contactDao.getAllContacts().sortedByDescending { it.timestamp })
+        contactLiveData.postValue(
+            contactDao.getAllContacts()
+                .sortedByDescending { it.logList?.lastOrNull() ?: it.timestamp })
     }
 
     fun refineRawText(rawText: CharSequence): String {
@@ -43,6 +57,11 @@ class HomeViewModel @Inject constructor(
 
     fun markUserOnboarded() = viewModelScope.launch {
         dataStore.updateOnboardedKey()
+    }
+
+    fun fetchContactByNumber(number: String) = viewModelScope.launch(Dispatchers.IO) {
+        val contact = contactDao.findContact(number)
+        detailContactFlow.emit(contact)
     }
 
 }

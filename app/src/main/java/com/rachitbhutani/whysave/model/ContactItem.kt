@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class ContactItem(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val phone: String?,
-    val timestamp: Long?
+    val timestamp: Long?,
+    val logList: List<Long>?
 )

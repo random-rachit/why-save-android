@@ -28,4 +28,6 @@
     <string name="tut_1">You’ll see a Why Save button when any text is selected. And with just a tap, you’re on</string>
     <string name="tut_2">Share a phone number via why save, and jump straight into the WhatsApp chat.</string>
     <string name="tut_3">Or just open the Why Save app and type in the phone number you want to text. It’s that simple.</string>
+    <string name="add_a_note">+ Add a note</string>
+    <string name="logs">Logs</string>
 </resources>

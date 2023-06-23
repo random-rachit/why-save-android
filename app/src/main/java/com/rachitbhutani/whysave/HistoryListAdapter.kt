@@ -23,7 +23,6 @@ class HistoryListAdapter(
         mList.clear()
         mList.addAll(list)
         diffResult.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
     }
 
     inner class Holder(private val binding: HistoryListItemBinding) :
@@ -31,9 +30,15 @@ class HistoryListAdapter(
 
         fun bindData(data: ContactItem) {
             binding.tvPhone.text = data.phone.formatPhoneNumber()
-            binding.tvTime.text = DateHelper.mapTimestampToTime(data.timestamp)
+            binding.tvTime.text =
+                DateHelper.mapTimestampToSingleLineString(
+                    data.logList?.lastOrNull() ?: data.timestamp
+                )
             binding.ivOpenChat.setOnClickListener {
                 listener.onWhatsappClick(data.phone.orEmpty())
+            }
+            binding.root.setOnClickListener {
+                listener.onItemClick(data.phone.orEmpty())
             }
         }
     }
