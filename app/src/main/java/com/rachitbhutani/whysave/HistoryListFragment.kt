@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentHistoryListBinding
 import com.rachitbhutani.whysave.helper.hideKeyboard
 import com.rachitbhutani.whysave.helper.openWhatsapp
+import com.rachitbhutani.whysave.helper.setImeActionListener
 import com.rachitbhutani.whysave.helper.showIf
 import com.rachitbhutani.whysave.helper.stripDigits
 import com.rachitbhutani.whysave.helper.validatePhoneNumber
@@ -35,6 +37,11 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     lateinit var eventLogger: EventLogger
 
     private val viewModel: HomeViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -92,27 +99,32 @@ class HistoryListFragment : Fragment(), HistoryListItemListener {
     }
 
     private fun setupUI() {
+
         setupRecyclerView()
+
+        binding.etDialpad.setImeActionListener(EditorInfo.IME_ACTION_GO) { v ->
+            val refinedText = viewModel.refineRawText(binding.etDialpad.text.toString())
+            if (refinedText.validatePhoneNumber()) {
+                viewModel.insertContact(refinedText)
+                eventLogger.sendFormatTrackerEvent(
+                    refinedText.stripDigits(),
+                    source = Source.DIALPAD
+                )
+                requireActivity().openWhatsapp(refinedText)
+                binding.etDialpad.clearFocus()
+                requireContext().hideKeyboard(v)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.invalid_number),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
         binding.etDialpad.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                val refinedText = viewModel.refineRawText(binding.etDialpad.text.toString())
-                if (refinedText.validatePhoneNumber()) {
-                    viewModel.insertContact(refinedText)
-                    eventLogger.sendFormatTrackerEvent(
-                        refinedText.stripDigits(),
-                        source = Source.DIALPAD
-                    )
-                    requireActivity().openWhatsapp(refinedText)
-                    binding.etDialpad.clearFocus()
-                    requireContext().hideKeyboard(v)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.invalid_number),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+
             }
             return@setOnEditorActionListener true
         }

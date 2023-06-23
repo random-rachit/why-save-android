@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_number">
 
         <EditText
-            android:id="@+id/et_dialpad"
+            android:id="@+id/et_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -76,7 +76,6 @@
         android:background="@drawable/bs_background"
         android:elevation="@dimen/dp_16"
         android:focusableInTouchMode="true"
-        android:padding="@dimen/dp_16"
         app:cardCornerRadius="@dimen/dp_20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cv_notepad">
@@ -85,6 +84,7 @@
             android:id="@+id/tv_logs_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
             android:drawablePadding="@dimen/dp_4"
             android:text="@string/logs"
             android:textColor="?attr/textPrimaryColor"
@@ -96,11 +96,28 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_logs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginVertical="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_logs_label" />
+            app:layout_constraintTop_toBottomOf="@id/tv_logs_label"
+            app:layout_constraintVertical_bias="0" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:rotation="-32"
+            android:src="@drawable/baseline_send_24"
+            android:tint="?attr/contrastPrimaryColor"
+            app:backgroundTint="?attr/accentPrimaryColor"
+            app:elevation="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

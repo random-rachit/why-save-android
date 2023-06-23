@@ -7,7 +7,6 @@ import com.google.firebase.ktx.Firebase
 import com.rachitbhutani.whysave.database.AppDatabase
 import com.rachitbhutani.whysave.database.ContactItemDao
 import com.rachitbhutani.whysave.database.Converters
-import com.rachitbhutani.whysave.database.MIGRATION_1_2
 import com.rachitbhutani.whysave.database.migrations
 import dagger.Module
 import dagger.Provides

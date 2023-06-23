@@ -9,7 +9,6 @@ import com.rachitbhutani.whysave.helper.WhySaveDataStore
 import com.rachitbhutani.whysave.model.ContactItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +23,10 @@ class HomeViewModel @Inject constructor(
 
     val isUserOnboarded = dataStore.isUserOnboarded()
 
-    val detailContactFlow = MutableStateFlow<ContactItem?>(null)
+    val detailContactLiveData by lazy {
+        mutableDetailContactLiveData
+    }
+    private val mutableDetailContactLiveData = MutableLiveData<ContactItem?>()
 
     fun fetchContacts() = viewModelScope.launch(Dispatchers.IO) {
         val contacts =
@@ -61,7 +63,12 @@ class HomeViewModel @Inject constructor(
 
     fun fetchContactByNumber(number: String) = viewModelScope.launch(Dispatchers.IO) {
         val contact = contactDao.findContact(number)
-        detailContactFlow.emit(contact)
+        mutableDetailContactLiveData.postValue(contact)
+    }
+
+    fun updateNote(text: String) = viewModelScope.launch(Dispatchers.IO) {
+        val newContact = detailContactLiveData.value?.copy(note = text) ?: return@launch
+        contactDao.insertContact(newContact)
     }
 
 }
