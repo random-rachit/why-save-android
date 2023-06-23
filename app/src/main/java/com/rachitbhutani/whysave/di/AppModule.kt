@@ -6,6 +6,8 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.rachitbhutani.whysave.database.AppDatabase
 import com.rachitbhutani.whysave.database.ContactItemDao
+import com.rachitbhutani.whysave.database.Converters
+import com.rachitbhutani.whysave.database.migrations
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +19,12 @@ class AppModule {
 
     @Provides
     fun provideAppDatabase(context: Application): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "why-save-db").build()
+        return Room
+            .databaseBuilder(context, AppDatabase::class.java, "why-save-db")
+            .fallbackToDestructiveMigration()
+            .addTypeConverter(Converters())
+            .addMigrations(*migrations.toTypedArray())
+            .build()
     }
 
     @Provides

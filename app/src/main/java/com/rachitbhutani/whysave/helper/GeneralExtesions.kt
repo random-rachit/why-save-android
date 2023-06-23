@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.ResultReceiver
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
@@ -88,6 +89,15 @@ fun View.showSnackBar(message: String, function: (() -> Unit)? = null) {
             dismiss()
         }
         show()
+    }
+}
+
+fun EditText.setImeActionListener(imeAction: Int, function: (view: View) -> Unit) {
+    setOnEditorActionListener { v, actionId, _ ->
+        if (actionId == imeAction) {
+            function.invoke(v)
+        }
+        return@setOnEditorActionListener true
     }
 }
 

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/why_save_bg_shapes"
+    app:theme="@style/Theme.WhySave"
+    tools:context=".detail.DetailFragment">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:src="@drawable/baseline_chevron_left_24"
+        app:layout_constraintBottom_toBottomOf="@id/tv_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_number"
+        app:tint="#072B1B" />
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:shadowColor="?attr/textPrimaryColor"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:textColor="#072B1B"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+91 7988204414" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_notepad"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:elevation="@dimen/dp_16"
+        app:cardBackgroundColor="#084028"
+        app:cardCornerRadius="@dimen/dp_24"
+        app:contentPadding="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_number">
+
+        <EditText
+            android:id="@+id/et_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:hint="@string/add_a_note"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="#41FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_logs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_16"
+        android:background="@drawable/bs_background"
+        android:elevation="@dimen/dp_16"
+        android:focusableInTouchMode="true"
+        app:cardCornerRadius="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_notepad">
+
+        <TextView
+            android:id="@+id/tv_logs_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:drawablePadding="@dimen/dp_4"
+            android:text="@string/logs"
+            android:textColor="?attr/textPrimaryColor"
+            android:textStyle="bold"
+            app:drawableTint="?attr/textPrimaryColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_logs"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginHorizontal="@dimen/dp_16"
+            android:layout_marginVertical="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_logs_label"
+            app:layout_constraintVertical_bias="0" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:rotation="-32"
+            android:src="@drawable/baseline_send_24"
+            android:tint="?attr/contrastPrimaryColor"
+            app:backgroundTint="?attr/accentPrimaryColor"
+            app:elevation="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
