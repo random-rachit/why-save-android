@@ -52,7 +52,7 @@
 
         <EditText
             android:id="@+id/et_note"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
@@ -60,11 +60,12 @@
             android:hint="@string/add_a_note"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textColor="@color/white"
             android:textColorHint="#41FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="This is an example of how text will stretch in the view. It can stretch however much it likes and should have no issue in scaling as long as it doesn't completely break the UI." />
 
     </androidx.cardview.widget.CardView>
 
