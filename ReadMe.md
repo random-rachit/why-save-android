@@ -29,12 +29,10 @@ The android app lets you:
 
 <img src="https://play-lh.googleusercontent.com/nLcGNdZxqH48tVhhtYzJStdXYEEJ0Fb9HOVJ2My5vm30CyniLGc58FMFfOaf75PEBE8=w1052-h592-rw" align="left" width="200" hspace="10" vspace="10">
 
-<img src="https://play-lh.googleusercontent.com/JU-P5KWgJBm53x5NiLjja9zwQMcfDQvikUzhtCUXQUSQ-3g932Rl3tYK7Pwp9lAN2w=w1052-h592-rw" align="left" width="200" hspace="10" vspace="10">
-
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 ## Contributing
-
 why-save app is a free and open source project developed by myself currently. Any contributions are welcome. Here are a few ways you can help:
  * [Report bugs and make suggestions.](https://github.com/wallabag/android-app/issues)
- * [Criticise me directly](mailto:contact@rachitbhutani.com).
+ * [Criticise me directly.](mailto:contact@rachitbhutani.com)
  * Write some code. Please follow the code style used in the project to make a review process faster.
