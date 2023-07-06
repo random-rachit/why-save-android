@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +17,16 @@ import com.rachitbhutani.whysave.analytics.EventLogger
 import com.rachitbhutani.whysave.analytics.Source
 import com.rachitbhutani.whysave.databinding.FragmentDetailBinding
 import com.rachitbhutani.whysave.helper.hideKeyboard
+import com.rachitbhutani.whysave.helper.observeTextChanges
 import com.rachitbhutani.whysave.helper.openWhatsapp
 import com.rachitbhutani.whysave.helper.setImeActionListener
 import com.rachitbhutani.whysave.helper.stripDigits
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -73,12 +80,7 @@ class DetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-            etNote.setImeActionListener(EditorInfo.IME_ACTION_DONE) {
-                val text = etNote.text.toString()
-                viewModel.updateNote(text)
-                etNote.clearFocus()
-                requireContext().hideKeyboard(it)
-            }
+            setupTextField()
 
             fabChat.setOnClickListener {
                 val phone = viewModel.detailContactLiveData.value?.phone.orEmpty()
@@ -89,5 +91,21 @@ class DetailFragment : Fragment() {
         }
 
         viewModel.fetchContactByNumber(args.number)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    private fun FragmentDetailBinding.setupTextField() {
+        etNote.observeTextChanges().debounce(500).onEach {
+            viewModel.updateNote(it.toString())
+            etNote.clearFocus()
+            requireContext().hideKeyboard(etNote)
+        }.launchIn(lifecycleScope)
+
+        etNote.setImeActionListener(EditorInfo.IME_ACTION_DONE) {
+            val text = etNote.text.toString()
+            viewModel.updateNote(text)
+            etNote.clearFocus()
+            requireContext().hideKeyboard(it)
+        }
     }
 }

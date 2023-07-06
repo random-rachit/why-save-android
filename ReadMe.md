@@ -34,5 +34,5 @@ The android app lets you:
 ## Contributing
 why-save app is a free and open source project developed by myself currently. Any contributions are welcome. Here are a few ways you can help:
  * [Report bugs and make suggestions.](https://github.com/wallabag/android-app/issues)
- * [Criticise me directly.](mailto:contact@rachitbhutani.com)
+ * [Criticise me directly.](mailto:contact@rachitbhutani.com?subject=Feedback%20for%20Why%20Save)
  * Write some code. Please follow the code style used in the project to make a review process faster.

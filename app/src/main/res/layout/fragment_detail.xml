@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/why_save_bg_shapes"
-    app:theme="@style/Theme.WhySave"
+    android:theme="@style/Theme.WhySave"
     tools:context=".detail.DetailFragment">
 
     <ImageView
@@ -114,11 +114,11 @@
             android:layout_margin="@dimen/dp_16"
             android:rotation="-32"
             android:src="@drawable/baseline_send_24"
-            android:tint="?attr/contrastPrimaryColor"
             app:backgroundTint="?attr/accentPrimaryColor"
             app:elevation="@dimen/dp_16"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="?attr/contrastPrimaryColor" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
