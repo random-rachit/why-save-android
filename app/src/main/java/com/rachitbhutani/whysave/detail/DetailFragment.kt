@@ -98,14 +98,7 @@ class DetailFragment : Fragment() {
         etNote.observeTextChanges().debounce(500).onEach {
             viewModel.updateNote(it.toString())
             etNote.clearFocus()
-            requireContext().hideKeyboard(etNote)
         }.launchIn(lifecycleScope)
 
-        etNote.setImeActionListener(EditorInfo.IME_ACTION_DONE) {
-            val text = etNote.text.toString()
-            viewModel.updateNote(text)
-            etNote.clearFocus()
-            requireContext().hideKeyboard(it)
-        }
     }
 }
